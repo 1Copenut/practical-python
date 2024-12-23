@@ -1,26 +1,53 @@
-# mortgage.py
+"""
+mortgage.py
+"""
 
-principal = 500000.0
-starting_principal = 500000.0
-rate = 0.05
-payment = 2684.11
-total_paid = 0.0
-payments_made = 0
-extra_payment_start_month = 60
-extra_payment_end_month = 108
-extra_payment = 1000
+PRINCIPAL: float = 500000.0
+RATE: float = 0.05
+PAYMENT: float = 2684.11
+CURRENT_PAYMENT: float = 0.0
+EXTRA_PAYMENT: float = 1000.0
+EXTRA_PAYMENT_START_MONTH: int = 60
+EXTRA_PAYMENT_END_MONTH: int = 108
+TOTAL_PAID: float = 0.0
+MONTHS_PAID: int = 0
 
-while principal > 0:
-    if (payments_made >= extra_payment_start_month) & (payments_made <= extra_payment_end_month):
-        principal = principal * (1+rate/12) - (payment + extra_payment)
-        total_paid = total_paid + (payment + extra_payment)
-    else:
-        principal = principal * (1+rate/12) - payment
-        total_paid = total_paid + payment
-    payments_made = payments_made + 1
-    # print(payments_made, round(total_paid, 2), round(principal, 2))
-    print(f'{payments_made:3n} {total_paid:10.2f} {principal:10.2f}')
+def print_payment_history(
+    months_paid: int,
+    current_payment: float,
+    total_payment: float,
+    principal: float
+) -> None:
+    """
+    print_payment_history formats arguments, rounds each argument to two decimals
+    and prints themt to the console.
+    """
+    print(
+        months_paid,
+        round(current_payment, 2),
+        round(total_payment, 2),
+        round(principal, 2)
+    )
 
-print(f'Principal borrowed: ${starting_principal:.2f}')
-print(f'Total paid: ${total_paid:.2f}')
-print(f'Months to pay off: {payments_made:n}')
+while PRINCIPAL > 0:
+    CURRENT_PAYMENT = PAYMENT
+    MONTHS_PAID = MONTHS_PAID + 1
+
+    # Make extra payments between months 60 and 108
+    if EXTRA_PAYMENT_START_MONTH <= MONTHS_PAID <= EXTRA_PAYMENT_END_MONTH:
+        CURRENT_PAYMENT = PAYMENT + EXTRA_PAYMENT
+
+    # Last payment should be principal only (no interest) and break out immediately
+    if PRINCIPAL < PAYMENT:
+        CURRENT_PAYMENT = PRINCIPAL
+        TOTAL_PAID = TOTAL_PAID + PRINCIPAL
+        PRINCIPAL = 0
+        break
+
+    TOTAL_PAID = TOTAL_PAID + CURRENT_PAYMENT
+    PRINCIPAL = PRINCIPAL * (1 + RATE / 12) - CURRENT_PAYMENT
+    print_payment_history(MONTHS_PAID, CURRENT_PAYMENT, TOTAL_PAID, PRINCIPAL)
+
+print_payment_history(MONTHS_PAID, CURRENT_PAYMENT, TOTAL_PAID, PRINCIPAL)
+print('Total paid', round(TOTAL_PAID, 2))
+print('Months paid', MONTHS_PAID)

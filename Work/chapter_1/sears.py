@@ -1,15 +1,15 @@
-# sears.py
+"""sears.py calculates the number of dollar bills needed to equal the height of the Sears Tower"""
 
-bill_thickness = 0.11 * 0.001    # Meters (0.11 mm)
-sears_height = 442             # Height (meters)
-num_bills = 1
-day = 1
+BILL_THICKNESS = 0.11 * 0.001    # Meters (0.11 mm)
+SEARS_HEIGHT = 442             # Height (meters)
+NUM_BILLS = 1
+DAY = 1
 
-while num_bills * bill_thickness < sears_height:
-    print(day, num_bills, num_bills * bill_thickness)
-    day = day + 1
-    num_bills = num_bills * 2
+while NUM_BILLS * BILL_THICKNESS < SEARS_HEIGHT:
+    print(DAY, NUM_BILLS, NUM_BILLS * BILL_THICKNESS)
+    DAY = DAY + 1
+    NUM_BILLS = NUM_BILLS * 2
 
-print('Number of days', day)
-print('Number of bills', num_bills)
-print('Final height', num_bills * bill_thickness)
+print('Number of days', DAY)
+print('Number of bills', NUM_BILLS)
+print('Final height', NUM_BILLS * BILL_THICKNESS)
